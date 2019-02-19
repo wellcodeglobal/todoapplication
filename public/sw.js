@@ -21,21 +21,6 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(async function() {
-    try {
-      return await fetch(event.request)
-        .then( function(response) {
-          event.waitUntil(
-            caches.open(cacheName)
-            .then(cache => {
-              return cache.addAll(urlsToCache);
-            })
-          )
-          return response;
-        });
-    } catch (err) {
-      console.log('cache loaded');
-      return caches.match(event.request);
-    }
-  }());
+  event.respondWith(caches.match(event.request))
+  console.log('cache loaded');
 });
