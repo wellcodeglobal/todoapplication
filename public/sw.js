@@ -1,6 +1,5 @@
 const urlsToCache = [
-  '/',
-  '/todos'
+  'manifest.json'
 ];
 const cacheName = 'pages-cache-v2';
 
@@ -21,5 +20,10 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(caches.match(event.request))
+  console.log("requesting :",event.request.url);
+  event.respondWith( async function() {
+    const response = await caches.match(event.request);
+    console.log("loading from cache :", response);
+    return response || fetch(event.request);
+  }());
 });
