@@ -22,20 +22,16 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(async function() {
-    try {
-      return await fetch(event.request)
-        .then( function(response) {
-          event.waitUntil(
-            caches.open(cacheName)
-            .then(cache => {
-              return cache.addAll(urlsToCache);
-            })
-          )
-          return response;
-        });
-    } catch (err) {
-      console.log('cache loaded');
-      return caches.match(event.request);
-    }
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(event.request);
+    const networkResponsePromise = fetch(event.request);
+
+    event.waitUntil(async function() {
+      const networkResponse = await networkResponsePromise;
+      await cache.put(event.request, networkResponse.clone());
+    }());
+
+    // Returned the cached response if we have one, otherwise return the network response.
+    return cachedResponse || networkResponsePromise;
   }());
 });
