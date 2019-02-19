@@ -2,7 +2,7 @@ const urlsToCache = [
   '/',
   '/todos'
 ];
-const cacheName = 'pages-cache-v2'
+const cacheName = 'pages-cache-v2';
 
 self.addEventListener('install', function(event) {
   event.waitUntil(async function() {
