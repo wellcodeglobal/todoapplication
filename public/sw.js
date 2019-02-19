@@ -1,19 +1,16 @@
 const urlsToCache = [
-  '/',
+  '/'
+];
+const urlsToCacheLater = [
   '/todos'
 ];
+const cacheName = 'pages-cache-v1'
 
 self.addEventListener('install', function(event) {
-  //perform some task
-  console.log('Service worker installing...');
-  // I'm a new service worker
-  //
-  event.waitUntil(
-    caches.open('pages-cache-v1')
-    .then(cache => {
-      return cache.addAll(urlsToCache);
-    })
-  );
+  event.waitUntil(async function() {
+    const cache = await caches.open(cacheName);
+    cache.addAll(urlsToCacheLater);
+    await cache.addAll(urlsToCache);
 });
 
 self.addEventListener('activate', function(event) {
@@ -29,7 +26,7 @@ self.addEventListener('fetch', (event) => {
         .then( function(response) {
           console.log('event.request', event.request.url)
           event.waitUntil(
-            caches.open('pages-cache-v1')
+            caches.open(cacheName)
             .then(cache => {
               console.log('cache saved');
               return cache.addAll(urlsToCache);
