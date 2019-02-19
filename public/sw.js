@@ -24,6 +24,7 @@ self.addEventListener('activate', function(event) {
         // but remember that caches are shared across
         // the whole origin
         console.log('cache deleted');
+        return true; //harus return true untuk remove cache
       }).map(cacheName => caches.delete('pages-cache-v1'))
     );
   }());
