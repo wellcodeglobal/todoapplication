@@ -1,0 +1,8 @@
+{
+  "short_name": "Todolist App",
+  "name": "Todolist App PWA Activated",
+  "background_color": "#fff",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2196F3"
+}

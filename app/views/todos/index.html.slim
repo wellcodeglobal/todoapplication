@@ -1,0 +1,9 @@
+- if(@todos.empty?)
+    small There is no todo list
+
+- @todos.each do |todo|
+    h3 #{todo.title}
+    h1 #{todo.created_by}
+    ul
+      - todo.items.each do |item|
+        li #{item.name}
