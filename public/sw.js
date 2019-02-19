@@ -1,6 +1,6 @@
 const urlsToCache = [
   '/',
-  'sw'
+  '/todos'
 ];
 const cacheName = 'pages-cache-v2'
 
