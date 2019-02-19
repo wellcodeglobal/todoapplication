@@ -11,6 +11,7 @@ self.addEventListener('install', function(event) {
     const cache = await caches.open(cacheName);
     cache.addAll(urlsToCacheLater);
     await cache.addAll(urlsToCache);
+  });
 });
 
 self.addEventListener('activate', function(event) {
