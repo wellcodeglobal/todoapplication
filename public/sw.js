@@ -5,10 +5,12 @@ const urlsToCache = [
 const cacheName = 'pages-cache-v2';
 
 self.addEventListener('install', function(event) {
-  event.waitUntil(async function() {
-    const cache = await caches.open(cacheName);
-    await cache.addAll(urlsToCache);
-  });
+  event.waitUntil(
+    caches.open(cacheName)
+    .then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
 
 self.addEventListener('activate', function(event) {
@@ -16,11 +18,8 @@ self.addEventListener('activate', function(event) {
   event.waitUntil(async function() {
     caches.delete('pages-cache-v1');
   }());
-  console.log('Service worker is activated.');
-  //do something
 });
 
 self.addEventListener('fetch', (event) => {
   event.respondWith(caches.match(event.request))
-  console.log('cache loaded');
 });
